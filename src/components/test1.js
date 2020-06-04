@@ -1,5 +1,6 @@
 import React from 'react';
-import { sparqlConnect, setQueryURL } from 'sparql-connect'
+import { sparqlConnect, setQueryURL } from 'sparql-connect';
+
 
 //Set the sparql endpoint (should be done once for the whole application)
 setQueryURL('https://query.wikidata.org/sparql')
@@ -28,7 +29,7 @@ WHERE
     ?women wdt:P106/wdt:P279* wd:Q483501 . # artists
     SERVICE wikibase:label {bd:serviceParam wikibase:language "fr,en" }
 }
-LIMIT 20
+LIMIT 500
 `
 //Create a connector to populate the component with the results
 const connector = sparqlConnect(query, {
