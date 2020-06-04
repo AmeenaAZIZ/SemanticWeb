@@ -48,6 +48,7 @@ export default function App() {
       <NonProtectedRoute path="/login" component={Login} />
       <NonProtectedRoute path="/listeFemmes" component={Cards} />
       <NonProtectedRoute path="/listeHommes" component={Cards} />
+      <NonProtectedRoute path="/test" component={ResourcesList} />
       {/* <NonProtectedRoute path="/artiste/add" component={AddArtiste} /> */}
     </Router>
 );
