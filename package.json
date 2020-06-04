@@ -12,6 +12,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "babel-polyfill": "^6.26.0",
+    "classnames": "^2.2.6",
     "history": "^4.10.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -24,7 +25,7 @@
     "sparql-connect": "^0.1.6"
   },
   "scripts": {
-    "start": "export HTTPS=true&&react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

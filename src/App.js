@@ -9,6 +9,7 @@ import Home from './components/Home';
 import Register from './components/Auth/Register';
 import Login from './components/Auth/Login';
 import history from './history.js';
+import Detail from './components/Detail';
 
 const NonProtectedRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={() => {
@@ -49,6 +50,8 @@ export default function App() {
       <NonProtectedRoute path="/listeFemmes" component={Cards} />
       <NonProtectedRoute path="/listeHommes" component={Cards} />
       <NonProtectedRoute path="/test" component={ResourcesList} />
+      <NonProtectedRoute path="/details" component={Detail} />
+
       {/* <NonProtectedRoute path="/artiste/add" component={AddArtiste} /> */}
     </Router>
 );

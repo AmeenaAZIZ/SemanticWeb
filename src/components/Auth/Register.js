@@ -67,7 +67,7 @@ export default function SignUp() {
         e.preventDefault();
         e.stopPropagation();
         
-        fetch(`${entrypoint}/users`, {
+        fetch(`${entrypoint}/api/users`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
