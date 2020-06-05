@@ -15,7 +15,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { sparqlConnect, setQueryURL } from 'sparql-connect';
 
 setQueryURL('https://query.wikidata.org/sparql')
-const query = `
+//setQueryURL('https://sandbox.bordercloud.com/sparql')
+const resource = document.location.pathname.substr(9);
+const queryBuilder = `
 PREFIX wdt:<http://www.wikidata.org/prop/direct/>
 PREFIX wd:<http://www.wikidata.org/entity/>
 PREFIX wikibase: <http://wikiba.se/ontology#>
@@ -25,13 +27,23 @@ WHERE
 {
     ?women wdt:P31 wd:Q5 .
     ?women wdt:P21 wd:Q6581072 .
-    ?women wdt:P106/wdt:P279* wd:Q483501 . # artists
+    ?women wdt:P1559 wd:${resource} . # artiste
     SERVICE wikibase:label {bd:serviceParam wikibase:language "fr,en" }
 }
 LIMIT 1
 `
-const connector = sparqlConnect(query, {
+const queryAddData = `
+INSERT DATA
+{
+    GRAPH <http://example.org/groupe7-graphe1>
+{
+    <https://www.wikidata.org/wiki/${resource}>
+}
+`
+
+const connector = sparqlConnect(queryBuilder, {
     queryName: 'results',
+    //singleResult: true
     })
 
 const useStyles = makeStyles((theme) => ({
@@ -114,7 +126,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Details({ results }) {
     const classes = useStyles();
-
+    const { id } = useParams();
 return (
 <React.Fragment>
 <CssBaseline />

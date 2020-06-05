@@ -5,6 +5,7 @@ import './App.css';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import Cards from './components/Cards';
+import CardsFetch from './components/CardsFetch';
 import Home from './components/Home';
 import Register from './components/Auth/Register';
 import Login from './components/Auth/Login';
@@ -50,8 +51,8 @@ export default function App() {
       <NonProtectedRoute path="/listeFemmes" component={Cards} />
       <NonProtectedRoute path="/listeHommes" component={Cards} />
       <NonProtectedRoute path="/test" component={ResourcesList} />
-      <NonProtectedRoute path="/details" component={Detail} />
-
+      <NonProtectedRoute path="/details/:id" component={Detail} />
+      <NonProtectedRoute path="/listeFemmesFetched" component={CardsFetch} />
       {/* <NonProtectedRoute path="/artiste/add" component={AddArtiste} /> */}
     </Router>
 );

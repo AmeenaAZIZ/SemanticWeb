@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
+import base64 from 'base-64';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -17,7 +18,7 @@ import WarningIcon from '@material-ui/icons/Warning';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 
-setQueryURL('https://query.wikidata.org/sparql')
+//setQueryURL('https://sandbox.bordercloud.com/sparql')
 const query = `
 PREFIX wdt:<http://www.wikidata.org/prop/direct/>
 PREFIX wd:<http://www.wikidata.org/entity/>
@@ -33,9 +34,22 @@ WHERE
 }
 LIMIT 500
 `
-const connector = sparqlConnect(query, {
-    queryName: 'results',
-    })
+
+const queryAddData = `
+    INSERT DATA 
+        { GRAPH <http://sandbox.bordercloud.com/groupe7>
+            {
+                <http://sandbox.bordercloud.com/artistes> <http://sandbox.bordercloud.com/views> 1
+            }
+        }
+`
+const query1= `
+select ?s ?p ?o 
+where {
+    ?s ?p ?o
+    } 
+limit 10
+`
 
 const useStyles = makeStyles((theme) => ({
 cardGrid: {
@@ -64,22 +78,43 @@ margin: {
 },
 }));
 
-function Cards({ results }) {
+function CardsFetch() {
 const classes = useStyles();
-const selectedResource = '...'
+const [results, setResults] = React.useState('');
+const [login, setLogin] = React.useState('ESGI-WEB-2020');
+const [password, setPassword] = React.useState('ESGI-WEB-2020-heUq9f');
+
+
+fetch(`https://sandbox.bordercloud.com/sparql?query=${query1}`, {
+    method: 'POST',
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        "Authorization": `Basic ${base64.encode(`${login}:${password}`)}`,
+        redirect: 'follow'
+    },
+/*     body: JSON.stringify({
+        query,
+    }), */
+    })  
+    .then((response) => response.json())
+    .then(result => console.log(result))
+    .catch((error) => {
+    console.error(error);
+    });
 
 return (
     <React.Fragment>
     <CssBaseline />
     <main>
         <Container className={classes.cardGrid} maxWidth="md">
-        <Grid container direction="row" justify="end" alignItems="end">
+        <Grid container direction="row" justify="flex-end" alignItems="flex-end">
             <Button href="/mission/add" className={classes.btnAjouter} variant="contained" size="medium" color="primary">
             Ajouter une femme artiste
             </Button>
         </Grid>
         <Grid container spacing={4}>
-            {results.map(({ women, womenLabel }) => (
+{/*             {results.map(({ women, womenLabel }) => (
             <Grid item key={womenLabel} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
                 <CardMedia
@@ -96,13 +131,13 @@ return (
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button resource={women.substr(31,39)} onClick= {() =>(history.push(`/details/${women.substr(31,39)}`))} size="small" color="primary">
+                    <Button size="small" color="primary">
                     Regarder les Oeuvres
                     </Button>
                 </CardActions>
                 </Card>
             </Grid>
-            ))}
+            ))} */}
         </Grid>
         </Container>
     </main>
@@ -112,21 +147,4 @@ return (
     </React.Fragment>
 );
 }
-export default connector(Cards,{
-loading: () => <span>
-                    <Container>
-                    <Grid container direction="row" justify="end" alignItems="end">
-                    <CircularProgress />
-                    <br/>Le chargement est en cours
-                    </Grid>
-                    </Container>
-                </span>,
-error: () => <span>
-                <Container>
-                <Grid container direction="row" justify="end" alignItems="end">
-                <WarningIcon />
-                <br/>Erreur lors du chargement des données wikidata
-                </Grid>
-                </Container>
-            </span>,
-    });
+export default CardsFetch;
