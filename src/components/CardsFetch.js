@@ -79,22 +79,7 @@ const classes = useStyles();
 const [login, setLogin] = React.useState('ESGI-WEB-2020');
 const [password, setPassword] = React.useState('ESGI-WEB-2020-heUq9f');
 
-const queryAddData =`
-PREFIX vcard:<http://www.w3.org/2006/vcard/ns#>
-PREFIX wdt:<http://www.wikidata.org/prop/direct/>
-INSERT DATA 
-{   GRAPH <http://sandbox.bordercloud.com/groupe7-grapheTest>
-    {
-        ${results.map((result)=>(
-            `<${result.item}> a vcard:Individual .
-            <${result.item}> vcard:fn "${result.itemLabel}".
-            <${result.item}> vcard:hasPhoto "<${result.img}>".
-            <${result.item}> vcard:bday "${result.dob}".
-            <${result.item}>  wdt:P569 "${result.placeofbirthLabel}".`
-            ))}
-    }
-}
-`
+results.forEach(result => console.log(result));
 
     function AddData(e) {
         e.preventDefault();
@@ -104,22 +89,37 @@ INSERT DATA
         var url = 'https://sandbox.bordercloud.com/sparql';
         myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
         myHeaders.append('Authorization', 'Basic ' + base64.encode(login + ":" + password));
-        
+
         var urlencoded = new URLSearchParams();
-        urlencoded.append("update", queryAddData);
-        
+        results.map(result =>
+            urlencoded.append("update", `
+PREFIX vcard:<http://www.w3.org/2006/vcard/ns#>
+PREFIX wdt:<http://www.wikidata.org/prop/direct/>
+INSERT DATA 
+{   GRAPH <http://sandbox.bordercloud.com/groupe7-grapheTest>
+    {
+        <${result.item}> a vcard:Individual.
+        <${result.item}> vcard:fn "${result.itemLabel}".
+        <${result.item}> vcard:hasPhoto <${result.img}>.
+        <${result.item}> vcard:bday "${result.dob}"^^xsd:dateTime.
+        <${result.item}> wdt:P569 "${result.placeofbirthLabel}".
+    }
+}
+`));
+
+
         var requestOptions = {
         method: 'POST',
         headers: myHeaders,
         body: urlencoded,
         redirect: 'follow'
         };
-        
+
         fetch(proxy+url, requestOptions)
         .then(response => response.text())
         .then(results => console.log(results))
         .catch(error => console.log('error', error));
-    
+
     }
 
 return (
