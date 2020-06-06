@@ -23,15 +23,17 @@ PREFIX wdt:<http://www.wikidata.org/prop/direct/>
 PREFIX wd:<http://www.wikidata.org/entity/>
 PREFIX wikibase: <http://wikiba.se/ontology#>
 PREFIX bd: <http://www.bigdata.com/rdf#>
-SELECT DISTINCT ?women ?womenLabel
+SELECT DISTINCT ?item ?itemLabel ?placeofbirthLabel ?dob
 WHERE
 {
-    ?women wdt:P31 wd:Q5 .
-    ?women wdt:P21 wd:Q6581072 .
-    ?women wdt:P106/wdt:P279* wd:Q483501 . # artists
+    ?item wdt:P31 wd:Q5 .
+    ?item wdt:P21 wd:Q6581072 .
+    ?item wdt:P106/wdt:P279* wd:Q483501 . # artists
+    OPTIONAL {?item wdt:P19 ?placeofbirth.}#lieu de naissance
+    OPTIONAL {?item wdt:P569 ?dob.} #date de naissance
     SERVICE wikibase:label {bd:serviceParam wikibase:language "fr,en" }
 }
-LIMIT 500
+LIMIT 20
 `
 const connector = sparqlConnect(query, {
     queryName: 'results',
@@ -66,51 +68,60 @@ margin: {
 
 function Cards({ results }) {
 const classes = useStyles();
-const selectedResource = '...'
+const Inconnu = " Inconnu"
 
 return (
     <React.Fragment>
-    <CssBaseline />
-    <main>
-        <Container className={classes.cardGrid} maxWidth="md">
-        <Grid container direction="row" justify="end" alignItems="end">
-            <Button href="/mission/add" className={classes.btnAjouter} variant="contained" size="medium" color="primary">
-            Ajouter une femme artiste
-            </Button>
-        </Grid>
-        <Grid container spacing={4}>
-            {results.map(({ women, womenLabel }) => (
-            <Grid item key={womenLabel} xs={12} sm={6} md={4}>
-                <Card className={classes.card}>
-                <CardMedia
-                    className={classes.cardMedia}
-                    image="/assets/arts.jpg"
-                    title="Image title"
-                />
-                <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                    { women }
-                    </Typography>
-                    <Typography>
-                    {womenLabel}
-                    </Typography>
-                </CardContent>
-                <CardActions>
-                    <Button resource={women.substr(31,39)} onClick= {() =>(history.push(`/details/${women.substr(31,39)}`))} size="small" color="primary">
-                    Regarder les Oeuvres
-                    </Button>
-                </CardActions>
-                </Card>
+        <CssBaseline />
+        <main>
+            <Container className={classes.cardGrid} maxWidth="md">
+            <Grid container direction="row" justify="flex-end" alignItems="flex-end">
+                <Button href="/artiste/add" className={classes.btnAjouter} variant="contained" size="medium" color="primary">
+                Ajouter une femme artiste
+                </Button>
             </Grid>
-            ))}
-        </Grid>
-        </Container>
-    </main>
-    <Fab onClick= {() =>(history.push('/artiste/add'))} color="primary" aria-label="add" className={classes.margin}>
-            <AddIcon />
-    </Fab>
-    </React.Fragment>
-);
+            <Grid container spacing={4}>
+                {results.map(({ item, itemLabel, img, dob, placeofbirthLabel }) => (
+                <Grid item key={item} xs={12} sm={6} md={4}>
+                    <Card className={classes.card}>
+                    {!img &&
+                    <CardMedia
+                        className={classes.cardMedia}
+                        image="/assets/arts.jpg"
+                        title="Image title"
+                    />
+                    }
+                    {img &&
+                    <CardMedia
+                        className={classes.cardMedia}
+                        image={img}
+                        title="Image title"
+                    />
+                    }
+                    <CardContent className={classes.cardContent}>
+                        <Typography gutterBottom variant="h5" component="h2">
+                        { itemLabel }
+                        </Typography>
+                        <Typography>
+                        Née à :{!placeofbirthLabel && Inconnu} {placeofbirthLabel} le : {dob.substr(0,10)}
+                        </Typography>
+                    </CardContent>
+                    <CardActions>
+                        <Button resource={item.substr(31)} onClick= {() =>(history.push(`/detailsAuteur/${item.substr(31)}`))} size="small" color="primary">
+                        Regarder les Oeuvres
+                        </Button>
+                    </CardActions>
+                    </Card>
+                </Grid>
+                ))}
+            </Grid>
+            </Container>
+        </main>
+        <Fab onClick= {() =>(history.push('/artiste/add'))} color="primary" aria-label="add" className={classes.margin}>
+                <AddIcon />
+        </Fab>
+        </React.Fragment>
+    );
 }
 export default connector(Cards,{
 loading: () => <span>

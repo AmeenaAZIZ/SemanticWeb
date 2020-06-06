@@ -16,7 +16,7 @@ import { sparqlConnect, setQueryURL } from 'sparql-connect';
 
 setQueryURL('https://query.wikidata.org/sparql')
 //setQueryURL('https://sandbox.bordercloud.com/sparql')
-const resource = document.location.pathname.substr(9);
+const resource = document.location.pathname.substr(15);
 const queryBuilder = `
 PREFIX wdt:<http://www.wikidata.org/prop/direct/>
 PREFIX wd:<http://www.wikidata.org/entity/>
@@ -24,22 +24,14 @@ PREFIX wikibase: <http://wikiba.se/ontology#>
 PREFIX bd: <http://www.bigdata.com/rdf#>
 SELECT DISTINCT ?item ?itemLabel
 WHERE {
-?item wdt:P31/wdt:P279* wd:Q838948. #instance de oeuvre ecrite et ses sous classes
-?item wdt:P50 wd:${resource}. #Identifiant 
+?item wdt:P31/wdt:P279* wd:Q47461344. #instance de oeuvre ecrite et ses sous classes
+?item wdt:P50 wd:${resource}. #Identifiant Auteur (Geneviève Dormann)
 SERVICE wikibase:label {bd:serviceParam wikibase:language "fr, en". }
-}
-`
-const queryAddData = `
-INSERT DATA
-{
-    GRAPH <http://example.org/groupe7-graphe1>
-{
-    <https://www.wikidata.org/wiki/${resource}>
 }
 `
 
 const connector = sparqlConnect(queryBuilder, {
-    queryName: 'results3',
+    queryName: 'results2',
     //singleResult: true
     })
 
@@ -121,7 +113,7 @@ const useStyles = makeStyles((theme) => ({
         }
     }));
 
-function Details({ results3 }) {
+function DetailsAuteur({ results2 }) {
     const classes = useStyles();
     const { id } = useParams();
 return (
@@ -130,7 +122,7 @@ return (
 <main>
     <Container className={classes.cardGrid} maxWidth="md">
     <Grid container spacing={4}>
-        {results3.map(({ item, itemLabel }) => (
+        {results2.map(({ item, itemLabel }) => (
 <div className={classes.root}>
     <Paper className={classes.paper}>
     <div className={classes.itemContainer}>
@@ -197,7 +189,7 @@ return (
 </React.Fragment>
 )
 }
-export default connector(Details,{
+export default connector(DetailsAuteur,{
 loading: () => <span>
                     <Container>
                     <Grid container direction="row" justify="end" alignItems="end">

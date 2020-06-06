@@ -6,11 +6,16 @@ import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import Cards from './components/Cards';
 import CardsFetch from './components/CardsFetch';
+import CardsFetchAuteur from './components/CardsAuteursFemmes';
+
 import Home from './components/Home';
 import Register from './components/Auth/Register';
 import Login from './components/Auth/Login';
 import history from './history.js';
 import Detail from './components/Detail';
+import DetailsAuteur from './components/DetailsAuteur';
+import AddCard from './components/Addcard';
+import CardsFetchNep from './components/CardFetchNeptune';
 
 const NonProtectedRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={() => {
@@ -53,7 +58,10 @@ export default function App() {
       <NonProtectedRoute path="/test" component={ResourcesList} />
       <NonProtectedRoute path="/details/:id" component={Detail} />
       <NonProtectedRoute path="/listeFemmesFetched" component={CardsFetch} />
-      {/* <NonProtectedRoute path="/artiste/add" component={AddArtiste} /> */}
+      <NonProtectedRoute path="/listAuteurFetched" component={CardsFetchAuteur} />
+      <NonProtectedRoute path="/detailsAuteur/:id" component={DetailsAuteur} />
+      <NonProtectedRoute path="/CardsFetchNep" component={CardsFetchNep} />
+      <NonProtectedRoute path="/artiste/add" component={AddCard} />
     </Router>
 );
 }
