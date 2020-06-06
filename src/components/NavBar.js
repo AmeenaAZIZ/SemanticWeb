@@ -35,13 +35,20 @@ return (
             Artistes
         </Typography>
         {localStorage.getItem('user') && (
-            <Button color="inherit" onClick={() => { localStorage.removeItem('user'); history.push('/'); } }>Se déconnecter</Button>
+            <div>
+                <Button color="inherit" href="/">Accueil</Button>
+                <Button color="inherit" href="/artiste/add">Ajouter un artiste</Button>
+                <Button color="inherit" href="/listAuteurFetched">Liste des auteurs</Button>
+                <Button color="inherit" href="/listeFemmesFetched">Importer des données</Button>
+                <Button color="inherit" onClick={() => { localStorage.removeItem('user'); history.push('/'); } }>Se déconnecter</Button>
+            </div>
         )}
         {!localStorage.getItem('user') && (
                 <div>
                 <Button color="inherit" href="/">Accueil</Button>
                 <Button color="inherit" href="/register">S'enregistrer</Button>
                 <Button color="inherit" href="/login">Login</Button>
+
                 </div>
             )}
         </Toolbar>

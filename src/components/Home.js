@@ -46,6 +46,18 @@ return (
                 </Button>
                 </Grid>
             </Grid>
+                <Grid container spacing={2} justify="center">
+                    <Grid item>
+                        <Button onClick= {() =>(history.push('/listAuteurFetched'))} variant="contained" color="primary">
+                            Femmes auteur
+                        </Button>
+                    </Grid>
+                    <Grid item>
+                        <Button onClick= {() =>(history.push('/listAuteurHommesFetched'))} variant="outlined" color="primary">
+                            Hommes auteur
+                        </Button>
+                    </Grid>
+                </Grid>
             </div>
         </Container>
         </div>

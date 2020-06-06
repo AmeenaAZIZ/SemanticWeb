@@ -16,6 +16,8 @@ import Detail from './components/Detail';
 import DetailsAuteur from './components/DetailsAuteur';
 import AddCard from './components/Addcard';
 import CardsFetchNep from './components/CardFetchNeptune';
+import CardsFetchAuteurHommes from "./components/CardsAuteursHommes";
+import CardsHommes from "./components/CardsHommes";
 
 const NonProtectedRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={() => {
@@ -50,18 +52,19 @@ const ProtectedRoute = ({ component: Component, ...rest }) => (
 export default function App() {
   return (
     <Router history={history}>
-      <NonProtectedRoute path="/" component={Home} exact />
-      <NonProtectedRoute path="/register" component={Register} />
-      <NonProtectedRoute path="/login" component={Login} />
-      <NonProtectedRoute path="/listeFemmes" component={Cards} />
-      <NonProtectedRoute path="/listeHommes" component={Cards} />
-      <NonProtectedRoute path="/test" component={ResourcesList} />
-      <NonProtectedRoute path="/details/:id" component={Detail} />
-      <NonProtectedRoute path="/listeFemmesFetched" component={CardsFetch} />
-      <NonProtectedRoute path="/listAuteurFetched" component={CardsFetchAuteur} />
-      <NonProtectedRoute path="/detailsAuteur/:id" component={DetailsAuteur} />
-      <NonProtectedRoute path="/CardsFetchNep" component={CardsFetchNep} />
-      <NonProtectedRoute path="/artiste/add" component={AddCard} />
+        <NonProtectedRoute path="/" component={Home} exact />
+        <NonProtectedRoute path="/register" component={Register} />
+        <NonProtectedRoute path="/login" component={Login} />
+        <NonProtectedRoute path="/listeFemmes" component={Cards} />
+        <NonProtectedRoute path="/listeHommes" component={CardsHommes} />
+        <NonProtectedRoute path="/test" component={ResourcesList} />
+        <NonProtectedRoute path="/details/:id" component={Detail} />
+        <NonProtectedRoute path="/listeFemmesFetched" component={CardsFetch} />
+        <NonProtectedRoute path="/listAuteurFetched" component={CardsFetchAuteur} />
+        <NonProtectedRoute path="/listAuteurHommesFetched" component={CardsFetchAuteurHommes} />
+        <NonProtectedRoute path="/detailsAuteur/:id" component={DetailsAuteur} />
+        <NonProtectedRoute path="/CardsFetchNep" component={CardsFetchNep} />
+        <NonProtectedRoute path="/artiste/add" component={AddCard} />
     </Router>
 );
 }

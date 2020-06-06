@@ -26,9 +26,10 @@ PREFIX bd: <http://www.bigdata.com/rdf#>
 SELECT DISTINCT ?item ?itemLabel ?placeofbirthLabel ?dob
 WHERE
 {
-    ?item wdt:P31 wd:Q5 .
+    VALUES ?selection { wd:Q1028181 wd:Q36180 wd:Q639669 }
+  ?item wdt:P106 ?selection .# artists
+  ?item wdt:P31 wd:Q5 .
     ?item wdt:P21 wd:Q6581072 .
-    ?item wdt:P106/wdt:P279* wd:Q483501 . # artists
     OPTIONAL {?item wdt:P19 ?placeofbirth.}#lieu de naissance
     OPTIONAL {?item wdt:P569 ?dob.} #date de naissance
     SERVICE wikibase:label {bd:serviceParam wikibase:language "fr,en" }

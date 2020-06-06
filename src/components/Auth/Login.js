@@ -63,7 +63,7 @@ export default function SignInSide() {
         e.preventDefault();
         e.stopPropagation();
 
-        fetch(`${entrypoint}/api/login`, {
+        fetch(`${entrypoint}/api/v1/login`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

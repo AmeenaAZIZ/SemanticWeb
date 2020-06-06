@@ -26,8 +26,8 @@ PREFIX wikibase: <http://wikiba.se/ontology#>
 PREFIX bd: <http://www.bigdata.com/rdf#>
 SELECT DISTINCT ?item ?itemLabel ?placeofbirthLabel ?dob (GROUP_CONCAT(?image ; separator=", ") as ?img)
 WHERE {
-?item wdt:P27 wd:Q142. #française
 ?item wdt:P31 wd:Q5. #être humain
+?item wdt:P27 wd:Q142. #française
 ?item wdt:P21 wd:Q6581072. #genre femme
 ?item wdt:P106 wd:Q36180. #Occupation de type écrivain
 OPTIONAL {?item wdt:P19 ?placeofbirth.}#lieu de naissance

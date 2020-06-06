@@ -134,50 +134,22 @@ return (
         <div className={classes.baseline}>
         <div className={classes.inline}>
             <Typography style={{ textTransform: 'uppercase' }} color='secondary' gutterBottom>
-            Months
+            Titre de l'oeuvre
             </Typography>
-            <Typography variant="h6" gutterBottom>
-            {item}
-            </Typography>
-        </div>
-        <div className={classes.inline}>
-            <Typography style={{ textTransform: 'uppercase' }} color='secondary' gutterBottom>
-            Creation date
-            </Typography>
-            <Typography variant="h6" gutterBottom>
-            {item}
-            </Typography>
-        </div>
-        <div className={classes.inline}>
-            <Typography style={{ textTransform: 'uppercase' }} color='secondary' gutterBottom>
-            Amount
-            </Typography>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h4" gutterBottom>
             {itemLabel}
             </Typography>
         </div>
+            <br/>
+            <br/>
         </div>
         <div className={classes.inlineRight}>
         <Typography style={{ textTransform: 'uppercase' }} color='secondary' gutterBottom>
-            Other Amount
+            Lien wikidata
         </Typography>
-        <Typography variant="h4" gutterBottom>
-            {itemLabel}
+        <Typography variant="h6" gutterBottom>
+            {item}
         </Typography>
-        <div className={classes.spaceTop}>
-                <Button
-                className={classes.primary}
-                >
-                Delete
-                </Button>
-                <Button
-                variant="contained"
-                color="primary"
-                className={classes.secondary}
-                >
-                Edit
-                </Button>
-        </div>
         </div>
     </div>
     </Paper>
