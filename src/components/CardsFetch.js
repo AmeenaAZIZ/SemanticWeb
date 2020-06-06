@@ -38,14 +38,6 @@ const connector = sparqlConnect(query, {
     queryName: 'results',
     })
 
-const query1=`select ?s ?p ?o {
-    GRAPH <http://sandbox.bordercloud.com/groupe7-grapheVcard>
-where {
-    ?s ?p ?o
-    } 
-}
-limit 10
-`
 
 const useStyles = makeStyles((theme) => ({
 cardGrid: {
