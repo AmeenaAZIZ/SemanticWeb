@@ -29,14 +29,6 @@ WHERE {
 SERVICE wikibase:label {bd:serviceParam wikibase:language "fr, en". }
 }
 `
-const queryAddData = `
-INSERT DATA
-{
-    GRAPH <http://example.org/groupe7-graphe1>
-{
-    <https://www.wikidata.org/wiki/${resource}>
-}
-`
 
 const connector = sparqlConnect(queryBuilder, {
     queryName: 'results3',

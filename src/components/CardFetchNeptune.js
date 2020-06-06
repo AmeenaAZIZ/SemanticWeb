@@ -18,9 +18,19 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 
-const query=`select ?s ?p ?o where{
-    GRAPH <http://sandbox.bordercloud.com/groupe7-grapheVcard> 
-    {?s ?p ?o} } 
+const query=`
+PREFIX vcard:<http://www.w3.org/2006/vcard/ns#>
+PREFIX wdt:<http://www.wikidata.org/prop/direct/>
+select ?item ?itemLabel ?img ?dob ?placeofbirthLabel where{
+    GRAPH <http://sandbox.bordercloud.com/groupe7-grapheVcard2> 
+    {
+        ?item a vcard:Individual.
+        ?item vcard:hasPhoto ?image.
+        ?item vcard:bday ?dob.
+        ?item vcard:fn ?itemLabel.
+        ?item wdt:P569 ?placeofbirthLabel.
+    }
+} 
 limit 20
 `
 
@@ -73,9 +83,9 @@ function CardsFetchNep() {
     };
             
     fetch(proxy+url, requestOptions)
-    .then(response => response.text())
-    .then(results => { setResults(results.bindings);
-        console.log(results)
+    .then((response) => response.json())
+    .then(json => { setResults(json.results.bindings);
+        console.log(json.results.bindings)
     })
     .catch(error => console.log('error', error));
         
@@ -95,35 +105,35 @@ return (
             </Button>
         </Grid>
         <Grid container spacing={4}>
-            {results.map(({ item, itemLabel, img, dob, placeofbirthLabel }) => (
-            <Grid item key={item} xs={12} sm={6} md={4}>
+            {Object.keys(results).map(result => (
+            <Grid item key={result.item} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
-                {!img &&
+                {!result.img &&
                 <CardMedia
                     className={classes.cardMedia}
                     image="/assets/arts.jpg"
                     title="Image title"
                 />
                 }
-                {img &&
+                {result.img &&
                 <CardMedia
                     className={classes.cardMedia}
-                    image={img}
+                    image={result.img}
                     title="Image title"
                 />
                 }
                 <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
-                    { itemLabel }
+                    { result.itemLabel }
                     </Typography>
                     <Typography>
-                    Née à :{!placeofbirthLabel && Inconnu} {placeofbirthLabel} le : {dob.substr(0,10)}
+                    Née à :{!result.placeofbirthLabel && Inconnu} {result.placeofbirthLabel} le : {result.dob}
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button resource={item.substr(31)} onClick= {() =>(history.push(`/detailsAuteur/${item.substr(31)}`))} size="small" color="primary">
+{/*                     <Button resource={result.item.substr(31)} onClick= {() =>(history.push(`/detailsAuteur/${result.item.substr(31)}`))} size="small" color="primary">
                     Regarder les Oeuvres
-                    </Button>
+                    </Button> */}
                 </CardActions>
                 </Card>
             </Grid>

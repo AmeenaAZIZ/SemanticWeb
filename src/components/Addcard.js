@@ -63,7 +63,7 @@ export default function AddCard() {
     PREFIX vcard:<http://www.w3.org/2006/vcard/ns#>
     PREFIX wdt:<http://www.wikidata.org/prop/direct/>
     INSERT DATA 
-    {   GRAPH <http://sandbox.bordercloud.com/groupe7-grapheVcard>
+    {   GRAPH <http://sandbox.bordercloud.com/groupe7-grapheVcard2>
         {
             <${pagewiki}> a vcard:Individual.
             <${pagewiki}> vcard:hasPhoto <${image}>.
